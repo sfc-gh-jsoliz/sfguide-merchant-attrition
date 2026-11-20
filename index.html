@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Merchant Attrition Early-Warning — Snow Pack</title>
+  <meta name="description" content="Flag the merchants quietly decaying toward churn before they leave, built on Snowflake. Merchant volume decline is contextualized against real US Census category demand, and a verifier refuses unsupported claims." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">SNOW PACK · FINANCIAL SERVICES · PAYMENTS</p>
+      <h1>Merchant Attrition Early-Warning</h1>
+      <p class="lede">An app for a payments processor&rsquo;s merchant book &mdash; it flags the merchants whose volume is quietly decaying toward churn, tells you whether it&rsquo;s the merchant or the whole category slowing, and a verifier refuses to ship an unsupported claim &mdash; with a Cortex Agent you can explore in Snowsight.</p>
+      <div class="cta">
+        <a class="btn primary" href="try/">Try it &mdash; no account</a>
+        <a class="btn" href="https://github.com/sfc-gh-jsoliz/sfguide-merchant-attrition">View the repo</a>
+      </div>
+      <p class="trust">Synthetic merchant book in the Try page. Mock AI responses are illustrative, not live inference.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="band">
+      <h2>The problem</h2>
+      <p>A merchant never sends a cancellation email &mdash; their processed volume just fades over a few months until they&rsquo;re gone. By the time attrition shows up in the revenue report, the save window has closed. The hard part isn&rsquo;t spotting a drop; it&rsquo;s knowing whether <em>this merchant</em> is failing or its <em>whole category</em> is slowing &mdash; a retention problem you can fix versus a market trend you can&rsquo;t.</p>
+    </section>
+
+    <section class="steps">
+      <article>
+        <h3>01 / See</h3>
+        <p>A gallery of attrition notes, each badged <strong>Verified</strong> or <strong>Needs review</strong>. Each rolls up merchant health by category: active, churned, at-risk, churn rate, and net revenue retention next to category demand.</p>
+      </article>
+      <article>
+        <h3>02 / Try</h3>
+        <p>Explore in your browser on a synthetic merchant book &mdash; no account, no install. Or run one SQL script in your own account to try it on synthetic tables.</p>
+      </article>
+      <article>
+        <h3>03 / Deploy</h3>
+        <p>Mount the free Financial Data Package from the Marketplace, run <code>setup.sql</code>, and the same app runs with real US Census category demand. Point it at your settlements with Cortex Code.</p>
+      </article>
+    </section>
+
+    <section class="band">
+      <h2>A look inside</h2>
+      <div class="shots">
+        <div class="grid">
+          <figure>
+            <img src="assets/merchant-attrition-1.png" alt="Streamlit-in-Snowflake app showing book-health KPIs and at-risk by category." />
+            <figcaption>Streamlit-in-Snowflake example &mdash; book health &amp; at-risk by category</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/merchant-attrition-2.png" alt="A per-category attrition note contrasting merchant decline against category demand, drafted and verified from the fact pack." />
+            <figcaption>Cortex AI_COMPLETE draft + verifier (sample data)</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <h2>How it works</h2>
+      <ol class="how">
+        <li><strong>Semantic view</strong> &mdash; governed business meaning over merchant health by category, month, risk band and tenure; Cortex Analyst answers natural-language questions against it.</li>
+        <li><strong>Fact pack</strong> &mdash; only the rolled-up latest-month facts per category (active, churned, at-risk, churn rate, NRR, category demand); the agent&rsquo;s entire allowed universe of numbers.</li>
+        <li><strong>Grounded draft</strong> &mdash; the model writes the save-list note under DATA RULES: copy figures exactly, contrast decline against category demand, no estimates, no hedging, no outside benchmarks.</li>
+        <li><strong>Verifier</strong> &mdash; a second pass checks every claim against the fact pack and flags the note Verified or Needs review.</li>
+      </ol>
+    </section>
+
+    <section class="band">
+      <h2>The signal that matters</h2>
+      <p>A merchant book shrinking while its category is <em>growing</em> is a retention problem you can fix &mdash; not a market you should exit. This pack puts synthetic merchant volume decay next to <strong>real US Census Advance Retail Sales</strong> by category, so a merchant falling against a rising category stands out as a real save-list target instead of seasonality.</p>
+    </section>
+
+    <section class="band">
+      <h2>Capabilities</h2>
+      <ul class="tags">
+        <li>Cortex Agents</li><li>Cortex Analyst</li><li>Semantic Views</li>
+        <li>Cortex AI_COMPLETE</li><li>Streamlit in Snowflake</li><li>Snowflake SQL</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p><strong>Merchant Attrition Early-Warning</strong> &middot; Owner: Javier Soliz &middot; Last reviewed: 2026-11</p>
+      <p>Apache 2.0. Illustrative example provided as-is, not an official Snowflake product, not supported by Snowflake Support. Contains no customer data. Review and test before any production use.</p>
+      <p><a href="try/">Try</a> &middot; <a href="https://github.com/sfc-gh-jsoliz/sfguide-merchant-attrition">Repo</a> &middot; <a href="https://sfc-gh-ooral.github.io/snow-packs/">Snow Packs</a> &middot; <a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql">Learn more</a></p>
+    </div>
+  </footer>
+</body>
+</html>

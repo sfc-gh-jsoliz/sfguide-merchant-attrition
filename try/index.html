@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Merchant Attrition Early-Warning — Try</title>
+<style>
+  :root { --navy:#11567F; --blue:#29B5E8; --muted:#4F6878; --line:#d0e8f2; --soft:#f4f9fc; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif; color:#1b2a33; }
+  header { background:linear-gradient(160deg,#EAF5FB,#fff 70%); border-bottom:1px solid var(--line); padding:1.3rem 1.25rem; }
+  header h1 { color:var(--navy); margin:0; font-size:1.4rem; }
+  header p { color:var(--muted); margin:.3rem 0 0; font-size:.9rem; }
+  .banner { background:#FFF4E5; border:1px solid #F3D19E; color:#7a4a00; border-radius:10px; padding:.6rem .9rem; margin:1rem 1.25rem 0; font-size:.85rem; }
+  .banner a { color:#0B6AA2; }
+  .layout { display:grid; grid-template-columns:320px 1fr; gap:1.25rem; padding:1.25rem; }
+  .panel { border:1px solid var(--line); border-radius:12px; padding:1rem; background:#fff; }
+  .panel h2 { font-size:1rem; color:var(--navy); margin:0 0 .7rem; }
+  label { display:block; font-size:.8rem; color:var(--muted); margin:.6rem 0 .2rem; font-weight:600; }
+  select { width:100%; padding:.4rem; border:1px solid var(--line); border-radius:8px; font-size:.85rem; }
+  .chk { margin-top:.8rem; font-size:.82rem; color:#33505f; }
+  button { margin-top:.9rem; width:100%; background:var(--blue); border:1px solid var(--blue); color:#06293b; font-weight:700; padding:.6rem; border-radius:9px; cursor:pointer; }
+  button:hover { filter:brightness(.97); }
+  .cards { display:grid; grid-template-columns:repeat(2,1fr); gap:.8rem; }
+  .card { border:1px solid var(--line); border-radius:12px; padding:.8rem; cursor:pointer; background:#fff; }
+  .card:hover { border-color:var(--blue); }
+  .badge { font-size:.8rem; font-weight:700; }
+  .ok { color:#1a7f37; } .warn { color:#b35900; }
+  .card .t { color:var(--navy); font-weight:600; margin:.2rem 0; }
+  .card .s { color:var(--muted); font-size:.78rem; }
+  .note { border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.3rem; background:#fff; }
+  .note h1 { font-size:1.3rem; color:var(--navy); }
+  .note table { border-collapse:collapse; width:100%; margin:.6rem 0; font-size:.86rem; }
+  .note th,.note td { border:1px solid var(--line); padding:.35rem .5rem; text-align:left; }
+  .note th { background:var(--soft); color:var(--navy); }
+  .note td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .save { background:#EAF7EE; border:1px solid #AEDBBE; border-radius:8px; padding:.6rem .8rem; margin:.6rem 0; font-size:.84rem; color:#1a5e34; }
+  .edits { background:#FDECEA; border:1px solid #F3B4AC; border-radius:8px; padding:.6rem .8rem; margin:.6rem 0; font-size:.82rem; }
+  .mock { color:var(--muted); font-size:.78rem; margin-top:.6rem; }
+  a.back { font-size:.85rem; color:#0B6AA2; cursor:pointer; }
+  button.running { opacity:.8; cursor:progress; }
+
+  /* standing blocks */
+  .block { border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; background:#fff; margin-bottom:1rem; }
+  .block h2 { font-size:1.05rem; color:var(--navy); margin:0 0 .2rem; }
+  .block .sub { color:var(--muted); font-size:.82rem; margin:0 0 .7rem; }
+
+  /* KPIs (tweened) */
+  .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:.6rem; }
+  .kpi { border:1px solid var(--line); border-radius:12px; padding:.7rem; background:#fff; }
+  .kpi .k { font-size:.72rem; color:var(--muted); font-weight:600; }
+  .kpi .v { color:var(--navy); font-weight:700; font-size:1.2rem; margin-top:.15rem; font-variant-numeric:tabular-nums; }
+  .kpi .d { font-size:.74rem; margin-top:.1rem; }
+  .d.up { color:#b35900; } .d.down { color:#1a7f37; } .d.flat { color:#8aa0ac; }
+  .d.pulse { display:inline-block; animation:pulse .5s ease; }
+  @keyframes pulse { 0%{transform:scale(1);} 40%{transform:scale(1.22);} 100%{transform:scale(1);} }
+
+  /* category table + risk bars */
+  #catTable { border-collapse:collapse; width:100%; font-size:.84rem; }
+  #catTable th, #catTable td { border:1px solid var(--line); padding:.4rem .5rem; text-align:right; vertical-align:top; }
+  #catTable th { background:var(--soft); color:var(--navy); text-align:right; }
+  #catTable th:first-child, #catTable td:first-child { text-align:left; }
+  #catTable tbody tr:hover { background:#f8fcfe; }
+  #catTable .cv { font-weight:600; font-variant-numeric:tabular-nums; }
+  .yoy-pos { color:#1a7f37; font-weight:600; } .yoy-neg { color:#c0392b; font-weight:600; }
+  .bar { height:6px; background:#eef5f9; border-radius:4px; margin-top:.3rem; overflow:hidden; }
+  .bar i { display:block; height:100%; width:0; border-radius:4px; transition:width .6s ease, background .6s ease; }
+
+  /* at-risk chart */
+  .attrchart { width:100%; height:auto; display:block; }
+  .attrchart .lbl { fill:#33505f; font-size:10.5px; font-family:inherit; }
+  .attrchart .val { fill:var(--navy); font-size:11px; font-weight:700; font-family:inherit; }
+  .attrchart rect.barbg { fill:#eef5f9; }
+  .legend { display:flex; flex-wrap:wrap; gap:1rem; margin-top:.5rem; font-size:.78rem; color:var(--muted); }
+  .legend .lg { display:flex; align-items:center; gap:.35rem; }
+  .legend i { width:14px; height:10px; border-radius:2px; display:inline-block; }
+
+  /* result-reveal pipeline */
+  .pipeline { border:1px dashed var(--blue); border-radius:12px; padding:1rem 1.2rem; background:#f4fbfe; }
+  .pipeline h2 { font-size:1.05rem; color:var(--navy); margin:.1rem 0 .7rem; }
+  .pipeline .step { display:flex; align-items:center; gap:.5rem; font-size:.92rem; color:#8aa0ac; margin:.35rem 0; }
+  .pipeline .step.active { color:var(--navy); font-weight:600; }
+  .pipeline .step.done { color:#1a7f37; font-weight:600; }
+  .spin { width:14px; height:14px; border:2px solid var(--line); border-top-color:var(--blue); border-radius:50%; display:inline-block; animation:spin .7s linear infinite; flex:0 0 auto; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .claim { background:#FDECEA; border:1px solid #F3B4AC; border-radius:8px; padding:.45rem .7rem; margin:.5rem 0 0; font-size:.85rem; color:#8a1f12; max-height:90px; overflow:hidden; transition:opacity .5s ease, max-height .5s ease, padding .5s ease, margin .5s ease; }
+  .claim.struck { text-decoration:line-through; text-decoration-color:#c0392b; }
+  .claim.removed { opacity:0; max-height:0; padding-top:0; padding-bottom:0; margin:0; }
+  @keyframes flashnote { 0%{ box-shadow:0 0 0 3px rgba(41,181,232,0); } 18%{ box-shadow:0 0 0 4px rgba(41,181,232,.6); } 100%{ box-shadow:0 0 0 4px rgba(41,181,232,0); } }
+  .flash { animation:flashnote 1.3s ease-out 1; }
+
+  @media (max-width:760px){ .layout{grid-template-columns:1fr;} .cards{grid-template-columns:1fr;} .kpis{grid-template-columns:repeat(2,1fr);} }
+
+@media (max-width:640px){
+  html,body{max-width:100%;overflow-x:hidden;}
+  .layout{grid-template-columns:1fr !important;}
+  .kpis{grid-template-columns:1fr 1fr !important;}
+  .cards{grid-template-columns:1fr !important;}
+  table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+  .block,main,.panel,header,.banner,.note,.pipeline,figure{min-width:0;max-width:100%;}
+  img,svg,.curve{max-width:100%;height:auto;}
+  .presets{grid-template-columns:1fr 1fr !important;}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Merchant Attrition Early-Warning</h1>
+  <p>Flag the merchants quietly decaying toward churn &mdash; running in your browser on a synthetic merchant book.</p>
+</header>
+<div class="banner">
+  <strong>Sample mode &mdash; synthetic merchant book &amp; mock AI.</strong> Fictional merchants; responses are illustrative, not live inference.
+  Real US Census category demand is available free on the Snowflake Marketplace (Financial Data Package) &mdash; the
+  <a href="https://github.com/sfc-gh-jsoliz/sfguide-merchant-attrition">repo</a> deploys this same app on it.
+</div>
+
+<div class="layout">
+  <aside class="panel">
+    <h2>Generate a note</h2>
+    <label>Reporting month</label>
+    <select id="month"></select>
+    <label>Sort categories by</label>
+    <select id="sortby">
+      <option value="atrisk">At-risk merchants</option>
+      <option value="churn">Churn rate %</option>
+      <option value="nrr">Net revenue retention %</option>
+    </select>
+    <div class="chk"><label style="display:inline;"><input type="checkbox" id="breakit" /> Inject an unsupported/hedged forecast (to test the verifier)</label></div>
+    <button id="run">Run attrition analysis</button>
+    <p class="mock">The fact pack &rarr; grounded draft &rarr; verify steps run client-side on the baked synthetic facts.</p>
+  </aside>
+  <main>
+    <div class="block">
+      <h2>Book health</h2>
+      <p class="sub">Synthetic merchant book &mdash; 120 merchants across 6 categories. Headline metrics with change vs the prior quarter.</p>
+      <div class="kpis" id="kpis"></div>
+    </div>
+
+    <div class="block">
+      <h2>Attrition by category</h2>
+      <p class="sub">Each row is a category's standing. Bars scale at-risk count &amp; churn rate (green&rarr;amber&rarr;red) and net revenue retention (fuller = healthier). Rows reorder live with the sort control.</p>
+      <table id="catTable"></table>
+    </div>
+
+    <div class="block">
+      <h2>At-risk merchants by category</h2>
+      <p class="sub">Bar length is the at-risk count; color marks whether category demand is still growing (fixable saves) or declining (market-wide).</p>
+      <svg id="attrChart" class="attrchart" viewBox="0 0 620 200" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="legend" id="chartLegend"></div>
+    </div>
+
+    <div class="block">
+      <div id="gallery"></div>
+      <div id="report" style="display:none;"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ---- Baked synthetic merchant book (6 MCC-aligned categories, 20 merchants each) ----
+// active = non-churned; at-risk is a subset of active decaying toward churn.
+// category_yoy = REAL-world style category demand backdrop (US Census retail sales YoY).
+const CATEGORIES = [
+  {name:"Restaurants & Food Service",   total:20, active:17, churned:3, atrisk:4, churn:15.0, nrr:88.4, yoy: 5.2},
+  {name:"Clothing & Accessories",       total:20, active:14, churned:6, atrisk:5, churn:30.0, nrr:70.9, yoy:-2.1},
+  {name:"Electronics & Appliances",     total:20, active:15, churned:5, atrisk:4, churn:25.0, nrr:78.6, yoy:-3.4},
+  {name:"Food & Beverage Stores",       total:20, active:18, churned:2, atrisk:2, churn:10.0, nrr:94.1, yoy: 3.8},
+  {name:"Furniture & Home Furnishings", total:20, active:15, churned:5, atrisk:6, churn:25.0, nrr:72.8, yoy:-6.5},
+  {name:"Health & Personal Care",       total:20, active:17, churned:3, atrisk:3, churn:15.0, nrr:86.2, yoy: 4.1}
+];
+// 6 recent month-ends to choose from (latest first); numbers are held steady for the sample.
+const MONTHS = ["2026-06-30","2026-05-31","2026-04-30","2026-03-31","2026-02-28","2026-01-31"];
+
+const pct = v => (v>=0?"+":"") + v.toFixed(1) + "%";
+const SAMPLE_REPORTS = [];
+
+function sortCats(key){
+  const c = CATEGORIES.slice();
+  if(key==="churn")  c.sort((a,b)=>b.churn-a.churn);
+  else if(key==="nrr") c.sort((a,b)=>a.nrr-b.nrr);        // worst retention first
+  else c.sort((a,b)=>b.atrisk-a.atrisk);                  // most at-risk first
+  return c;
+}
+
+// Save-list priority: at-risk merchants in categories whose demand is still GROWING
+// are the fixable retention targets; declining-category attrition is market-wide.
+function saveList(){
+  const fixable = CATEGORIES.filter(c=>c.yoy>0 && c.atrisk>0).sort((a,b)=>b.atrisk-a.atrisk);
+  const market  = CATEGORIES.filter(c=>c.yoy<=0 && c.atrisk>0).sort((a,b)=>b.atrisk-a.atrisk);
+  return {fixable, market};
+}
+
+function draft(month, sortKey){
+  const rows = sortCats(sortKey);
+  const worst = CATEGORIES.slice().sort((a,b)=>b.churn-a.churn)[0];
+  const sl = saveList();
+  const fixCount = sl.fixable.reduce((s,c)=>s+c.atrisk,0);
+  let md = `# Merchant attrition early-warning — ${month}\n\n`;
+  md += `**Takeaway.** Attrition is worst in ${worst.name} at ${worst.churn.toFixed(1)}% churn; the top save-list opportunity is ${sl.fixable.length? sl.fixable[0].name : "n/d"}, where merchants are decaying even though category demand is growing.\n\n`;
+  md += `| Category | Active | Churned | At-risk | Churn rate % | NRR % | Category YoY % |\n|---|---|---|---|---|---|---|\n`;
+  rows.forEach(c=> md += `| ${c.name} | ${c.active} | ${c.churned} | ${c.atrisk} | ${c.churn.toFixed(1)}% | ${c.nrr.toFixed(1)}% | ${pct(c.yoy)} |\n`);
+  md += `\n@@SAVELIST@@\n`;
+  md += `\n- **Fix first (${fixCount} at-risk in growing categories):** ${sl.fixable.map(c=>`${c.name} (${c.atrisk} at-risk, demand ${pct(c.yoy)})`).join("; ")}. These are decaying against a rising market — a retention problem, not seasonality.\n`;
+  md += `- **Market-wide decline:** ${sl.market.map(c=>`${c.name} (${c.atrisk} at-risk, demand ${pct(c.yoy)})`).join("; ")}. Attrition here tracks a shrinking category; weigh re-pricing or managed exit against saves.\n`;
+  md += `- **Watch net revenue retention:** lowest NRR is ${CATEGORIES.slice().sort((a,b)=>a.nrr-b.nrr)[0].name} at ${CATEGORIES.slice().sort((a,b)=>a.nrr-b.nrr)[0].nrr.toFixed(1)}% of baseline volume retained.\n`;
+  md += `\n## Data Coverage\nSynthetic merchant book (120 merchants across 6 categories); category demand backdrop synthetic in this sample, real US Census Advance Retail Sales on deploy. Month ${month}.\n`;
+  return md;
+}
+
+const HEDGE = ["likely","approximately","around","could","industry-leading","~","next quarter","next year"];
+function verify(md){
+  const edits=[]; let hedges=0;
+  HEDGE.forEach(h=>{ if(md.toLowerCase().includes(h)){ hedges++; edits.push(`hedge/unsupported forecast term: "${h}"`); }});
+  if(/\b20% more merchants\b/i.test(md)) edits.push('unsupported forward estimate: "20% more merchants next quarter"');
+  return { status: edits.length? "needs_review":"verified", hedges, edits };
+}
+
+function renderNote(container, rec){
+  const v=rec.verify;
+  const badge = v.status==="verified" ? '<span class="badge ok">✅ Verified</span>' : '<span class="badge warn">⚠️ Needs review</span>';
+  let html = `<p><a class="back" onclick="showGallery()">← Back to gallery</a></p><div class="note">`;
+  html += `<p>${badge} &nbsp; residual hedges: ${v.hedges} &nbsp;|&nbsp; flagged: ${v.edits.length}</p>`;
+  if(v.edits.length){ html += `<div class="edits"><strong>Verifier removed / flagged:</strong><ul>`+v.edits.map(e=>`<li>${e}</li>`).join("")+`</ul></div>`; }
+  html += mdToHtml(rec.md) + `<p class="mock">Mock AI response — illustrative, not live inference.</p></div>`;
+  container.innerHTML = html;
+}
+function mdToHtml(md){
+  const lines = md.split("\n"); let html=""; let inTable=false, inList=false, hdrDone=false;
+  for(let i=0;i<lines.length;i++){ let L=lines[i];
+    if(L.trim()==="@@SAVELIST@@"){ html+=`<div class="save"><strong>Save-list priority:</strong> rank at-risk merchants by whether their category demand is still growing — those are the fixable retention targets.</div>`; continue; }
+    if(/^\|/.test(L)){ const cells=L.split("|").slice(1,-1).map(c=>c.trim());
+      if(/^-+$/.test(cells.join(""))) continue;
+      if(!inTable){ html+="<table>"; inTable=true; hdrDone=false; }
+      if(!hdrDone){ html+="<tr>"+cells.map(c=>`<th>${c}</th>`).join("")+"</tr>"; hdrDone=true; continue; }
+      html+="<tr>"+cells.map((c,idx)=>`<td${idx>0?' class="num"':''}>${c}</td>`).join("")+"</tr>"; continue;
+    } else if(inTable){ html+="</table>"; inTable=false; }
+    if(/^# /.test(L)){ html+=`<h1>${L.slice(2)}</h1>`; continue; }
+    if(/^## /.test(L)){ html+=`<h3>${L.slice(3)}</h3>`; continue; }
+    if(/^- /.test(L)){ if(!inList){html+="<ul>";inList=true;} html+=`<li>${inline(L.slice(2))}</li>`; continue; }
+    else if(inList){ html+="</ul>"; inList=false; }
+    if(L.trim()) html+=`<p>${inline(L)}</p>`;
+  }
+  if(inTable)html+="</table>"; if(inList)html+="</ul>"; return html;
+}
+const inline = s => s.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+
+function showGallery(){ document.getElementById("report").style.display="none"; const g=document.getElementById("gallery"); g.style.display="block";
+  g.innerHTML = `<h2 style="color:#11567F;">Gallery</h2><div class="cards">`+
+    SAMPLE_REPORTS.map((r,i)=>{ const v=r.verify; const b=v.status==="verified"?'<span class="badge ok">✅ Verified</span>':'<span class="badge warn">⚠️ Needs review</span>';
+      return `<div class="card" onclick="openReport(${i})">${b}<div class="t">${r.subject}</div><div class="s">${r.month} · ${v.edits.length} flagged</div></div>`; }).join("")+`</div>`;
+}
+function openReport(i){ document.getElementById("gallery").style.display="none"; const r=document.getElementById("report"); r.style.display="block"; renderNote(r, SAMPLE_REPORTS[i]); }
+
+function seed(){
+  const m0=MONTHS[0];
+  const md=draft(m0,"atrisk");
+  SAMPLE_REPORTS.push({subject:"Merchant attrition early-warning",month:m0,md,verify:verify(md)});
+  // a pre-seeded Needs-review example with a planted forward projection
+  let md2=draft(MONTHS[1],"churn").replace("## Data Coverage","- Restaurants will likely lose 20% more merchants next quarter with industry-leading recovery.\n\n## Data Coverage");
+  SAMPLE_REPORTS.push({subject:"Merchant attrition early-warning",month:MONTHS[1],md:md2,verify:verify(md2)});
+}
+// ---- Number tween helper (ease-out, re-entrant) ----
+function tween(el, to, dur, fmt){
+  const from = (el.__v!==undefined) ? el.__v : to; el.__v = to;
+  if(Math.abs(from-to) < 1e-9){ el.textContent = fmt(to); return; }
+  const token=(el.__t||0)+1; el.__t=token; const t0=performance.now();
+  function step(now){
+    if(el.__t!==token) return;
+    let p=Math.min(1,(now-t0)/dur); const e=1-Math.pow(1-p,3);
+    el.textContent=fmt(from+(to-from)*e);
+    if(p<1) requestAnimationFrame(step); else el.textContent=fmt(to);
+  }
+  requestAnimationFrame(step);
+}
+
+// ---- Book-level headline stats ----
+function bookStats(){
+  const totalMerch = CATEGORIES.reduce((s,c)=>s+c.total,0);
+  const atrisk     = CATEGORIES.reduce((s,c)=>s+c.atrisk,0);
+  const churned    = CATEGORIES.reduce((s,c)=>s+c.churned,0);
+  const churnRate  = churned/totalMerch*100;
+  const nrr        = CATEGORIES.reduce((s,c)=>s+c.nrr,0)/CATEGORIES.length;
+  const fixable    = CATEGORIES.filter(c=>c.yoy>0).reduce((s,c)=>s+c.atrisk,0);
+  const declining  = CATEGORIES.filter(c=>c.yoy<0).length;
+  return {atrisk, churnRate, nrr, fixable, declining};
+}
+// prior-quarter baselines (synthetic, illustrative) so each KPI shows a signed delta
+const KPI_DEFS = [
+  {key:"atrisk",    k:"At-risk merchants",            prior:21,   goodUp:false, fmt:x=>Math.round(x).toString(),      dfmt:d=>(d>0?"+":"")+Math.round(d)},
+  {key:"churnRate", k:"Churn rate",                   prior:18.2, goodUp:false, fmt:x=>x.toFixed(1)+"%",              dfmt:d=>(d>0?"+":"")+d.toFixed(1)+" pp"},
+  {key:"nrr",       k:"Net revenue retention",        prior:83.5, goodUp:true,  fmt:x=>x.toFixed(1)+"%",              dfmt:d=>(d>0?"+":"")+d.toFixed(1)+" pp"},
+  {key:"fixable",   k:"Fixable at-risk (growing)",    prior:8,    goodUp:true,  fmt:x=>Math.round(x).toString(),      dfmt:d=>(d>0?"+":"")+Math.round(d)},
+  {key:"declining", k:"Categories in decline",        prior:2,    goodUp:false, fmt:x=>Math.round(x).toString(),      dfmt:d=>(d>0?"+":"")+Math.round(d)}
+];
+let kpiBuilt=false; const kpiRefs={};
+function buildKPIs(){
+  const el=document.getElementById("kpis"); if(!el) return; el.innerHTML="";
+  KPI_DEFS.forEach(def=>{
+    const card=document.createElement("div"); card.className="kpi";
+    card.innerHTML=`<div class="k">${def.k}</div><div class="v"></div><span class="d"></span>`;
+    el.appendChild(card);
+    const vEl=card.querySelector(".v"); vEl.__v=def.prior;   // seed so first render counts prior -> current
+    kpiRefs[def.key]={v:vEl, d:card.querySelector(".d")};
+  });
+  kpiBuilt=true;
+}
+function renderKPIs(){
+  if(!kpiBuilt) buildKPIs();
+  const s=bookStats();
+  KPI_DEFS.forEach(def=>{
+    const val=s[def.key], ref=kpiRefs[def.key];
+    tween(ref.v, val, 450, def.fmt);
+    const d=val-def.prior;
+    if(Math.abs(d)<1e-9){ ref.d.className="d flat"; ref.d.innerHTML="&Delta; 0 vs prior qtr"; return; }
+    const improved = def.goodUp ? d>0 : d<0;
+    ref.d.className="d "+(improved?"down":"up");
+    ref.d.innerHTML="&Delta; "+def.dfmt(d)+" vs prior qtr";
+    ref.d.classList.add("pulse"); setTimeout(()=>ref.d.classList.remove("pulse"),500);
+  });
+}
+
+// ---- Attrition-by-category table: build once, animate bars, reorder in place ----
+const CHURN_MAX=30, ATR_MAX=6;
+function barColorBad(r){ return r<0.34?"#1a7f37":r<0.67?"#b35900":"#c0392b"; }  // low=green, high=red
+function nrrColor(v){ return v>=85?"#1a7f37":v>=75?"#b35900":"#c0392b"; }         // high=healthy=green
+let catBuilt=false;
+function buildCatTable(){
+  const t=document.getElementById("catTable"); if(!t) return;
+  let html=`<thead><tr><th>Category</th><th>Active</th><th>Churned</th><th>At-risk</th><th>Churn rate %</th><th>NRR %</th><th>Category YoY %</th></tr></thead><tbody>`;
+  CATEGORIES.forEach((c,i)=>{
+    html+=`<tr data-ci="${i}">`+
+      `<td>${c.name}</td>`+
+      `<td><span class="cv">${c.active}</span></td>`+
+      `<td><span class="cv">${c.churned}</span></td>`+
+      `<td><span class="cv">${c.atrisk}</span><div class="bar"><i data-bar="atr-${i}"></i></div></td>`+
+      `<td><span class="cv">${c.churn.toFixed(1)}%</span><div class="bar"><i data-bar="chn-${i}"></i></div></td>`+
+      `<td><span class="cv">${c.nrr.toFixed(1)}%</span><div class="bar"><i data-bar="nrr-${i}"></i></div></td>`+
+      `<td class="${c.yoy>=0?'yoy-pos':'yoy-neg'}">${pct(c.yoy)}</td>`+
+    `</tr>`;
+  });
+  html+=`</tbody>`; t.innerHTML=html; catBuilt=true;
+}
+function setBar(key, widthPct, color){ const i=document.querySelector(`[data-bar="${key}"]`); if(!i) return; i.style.background=color; i.style.width=widthPct.toFixed(1)+"%"; }
+function animateCatBars(){
+  CATEGORIES.forEach((c,i)=>{
+    const chnR=Math.min(1,c.churn/CHURN_MAX), atrR=Math.min(1,c.atrisk/ATR_MAX);
+    setBar("atr-"+i, atrR*100, barColorBad(atrR));
+    setBar("chn-"+i, chnR*100, barColorBad(chnR));
+    setBar("nrr-"+i, Math.min(1,c.nrr/100)*100, nrrColor(c.nrr));
+  });
+}
+function sortCatTable(key){
+  if(!catBuilt) return;
+  const tbody=document.querySelector("#catTable tbody"); if(!tbody) return;
+  sortCats(key).forEach(c=>{ const idx=CATEGORIES.indexOf(c); const tr=tbody.querySelector(`[data-ci="${idx}"]`); if(tr) tbody.appendChild(tr); });
+}
+
+// ---- At-risk-by-category SVG bar chart (brand colors, animated in) ----
+let chartCats=[];
+function buildChart(){
+  const svg=document.getElementById("attrChart"); if(!svg) return;
+  const cats=CATEGORIES.slice().sort((a,b)=>b.atrisk-a.atrisk);
+  const x0=196, x1=560, top=12, rowH=28, maxA=Math.max(...CATEGORIES.map(c=>c.atrisk))||1;
+  let s="";
+  cats.forEach((c,i)=>{
+    const y=top+i*rowH, col=c.yoy>0?"#11567F":"#C0392B", w=((x1-x0)*c.atrisk/maxA).toFixed(1);
+    s+=`<text class="lbl" x="4" y="${y+15}">${c.name}</text>`;
+    s+=`<rect class="barbg" x="${x0}" y="${y+4}" width="${x1-x0}" height="16" rx="3"/>`;
+    s+=`<rect class="barfg" id="cbar-${i}" x="${x0}" y="${y+4}" width="0" height="16" rx="3" fill="${col}" data-w="${w}"/>`;
+    s+=`<text class="val" id="cval-${i}" x="${x1+8}" y="${y+16}">0</text>`;
+  });
+  const h=top+cats.length*rowH+6;
+  svg.setAttribute("viewBox",`0 0 620 ${h}`); svg.innerHTML=s; chartCats=cats;
+  document.getElementById("chartLegend").innerHTML=
+    `<span class="lg"><i style="background:#11567F"></i>Demand growing &mdash; fixable saves</span>`+
+    `<span class="lg"><i style="background:#C0392B"></i>Demand declining &mdash; market-wide</span>`;
+}
+function animateChart(){
+  if(!chartCats.length) return;
+  const dur=750, t0=performance.now();
+  function step(now){
+    let p=Math.min(1,(now-t0)/dur); const e=1-Math.pow(1-p,3);
+    chartCats.forEach((c,i)=>{
+      const bar=document.getElementById("cbar-"+i), val=document.getElementById("cval-"+i);
+      if(bar){ bar.setAttribute("width",(+bar.getAttribute("data-w")*e).toFixed(1)); }
+      if(val){ val.textContent=Math.round(c.atrisk*e).toString(); }
+    });
+    if(p<1) requestAnimationFrame(step);
+    else chartCats.forEach((c,i)=>{ const bar=document.getElementById("cbar-"+i), val=document.getElementById("cval-"+i); if(bar) bar.setAttribute("width",bar.getAttribute("data-w")); if(val) val.textContent=c.atrisk.toString(); });
+  }
+  requestAnimationFrame(step);
+}
+
+// ---- Run handler: result-reveal pipeline (draft -> verify -> gate) ----
+const CLAIM_TEXT = "Restaurants will likely lose 20% more merchants next quarter with industry-leading recovery.";
+function initForm(){
+  const m=document.getElementById("month");
+  MONTHS.forEach(x=>m.add(new Option(x,x)));
+  document.getElementById("sortby").addEventListener("change", e=> sortCatTable(e.target.value));
+  const runBtn=document.getElementById("run");
+  runBtn.onclick=()=>{
+    if(runBtn.disabled) return;
+    const month=m.value; const sortKey=document.getElementById("sortby").value;
+    const broke=document.getElementById("breakit").checked;
+    let md=draft(month,sortKey);
+    if(broke){ md=md.replace("## Data Coverage","- "+CLAIM_TEXT+"\n\n## Data Coverage"); }
+    const rec={subject:"Merchant attrition early-warning",month,md,verify:verify(md)};
+    const label=runBtn.textContent;
+    runBtn.disabled=true; runBtn.classList.add("running"); runBtn.textContent="Running analysis\u2026";
+    document.getElementById("gallery").style.display="none";
+    const rep=document.getElementById("report"); rep.style.display="block"; rep.classList.remove("flash");
+    rep.innerHTML=`<div class="pipeline"><h2>Generating attrition note &mdash; ${month}</h2>`+
+      `<div class="step active" id="st1"><span class="spin"></span> Drafting note from the merchant book&hellip;</div>`+
+      `<div class="step" id="st2">Verifying claims against the data&hellip;</div>`+
+      `<div class="step" id="st3">Gating unsupported statements&hellip;</div>`+
+      (broke?`<div class="claim" id="claimline">&ldquo;${CLAIM_TEXT}&rdquo;</div>`:``)+
+      `</div>`;
+    rep.scrollIntoView({behavior:"smooth",block:"start"});
+    const T = broke ? [700,1400,1850,2300,2650] : [700,1400,1400,1400,1900];
+    setTimeout(()=>{ const a=document.getElementById("st1"),b=document.getElementById("st2"); if(!a)return;
+      a.className="step done"; a.innerHTML="&#9989; Drafted note from the merchant book";
+      b.className="step active"; b.innerHTML='<span class="spin"></span> Verifying claims against the data&hellip;'; }, T[0]);
+    setTimeout(()=>{ const b=document.getElementById("st2"),c=document.getElementById("st3"); if(!b)return;
+      b.className="step done"; b.innerHTML="&#9989; Verified claims against the data";
+      if(broke){ c.className="step active"; c.innerHTML='<span class="spin"></span> Gating unsupported statements&hellip;'; } }, T[1]);
+    if(broke){
+      setTimeout(()=>{ const cl=document.getElementById("claimline"); if(cl) cl.classList.add("struck"); }, T[2]);
+      setTimeout(()=>{ const cl=document.getElementById("claimline"); if(cl) cl.classList.add("removed"); }, T[3]);
+    }
+    setTimeout(()=>{ const c=document.getElementById("st3"); if(c){ const n=rec.verify.edits.length;
+      c.className="step done"; c.innerHTML = n ? ("&#9888;&#65039; Flagged "+n+" unsupported statement"+(n>1?"s":"")+" \u2014 removed") : "&#9989; No unsupported statements"; } }, broke?T[3]:T[1]);
+    setTimeout(()=>{ SAMPLE_REPORTS.unshift(rec); openReport(0); rep.classList.add("flash");
+      runBtn.disabled=false; runBtn.classList.remove("running"); runBtn.textContent=label; }, T[4]);
+  };
+}
+
+seed(); initForm(); showGallery();
+buildKPIs(); renderKPIs();
+buildCatTable(); sortCatTable(document.getElementById("sortby").value); requestAnimationFrame(animateCatBars);
+buildChart(); requestAnimationFrame(animateChart);
+</script>
+</body>
+</html>
