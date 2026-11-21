@@ -43,7 +43,7 @@ with st.sidebar:
     view = st.radio("View", list(VIEWS), label_visibility="collapsed", key="view")
     env = ('<span class="mw-chip live"><span class="mw-dot"></span>Live · Snowflake</span>' if mode == "Live"
            else '<span class="mw-chip sample"><span class="mw-dot"></span>Sample data</span>')
-    st.html(f'<div class="mw-rail-h">Environment</div>{env}<br><span class="mw-chip">Retention analyst · {data.ROLE}</span>'
+    st.html(f'<div class="mw-rail-h">Environment</div>{env}<br><span class="mw-chip role">Retention analyst<code>{data.ROLE}</code></span>'
             '<div class="mw-rail-foot">Synthetic merchant book and illustrative logic only. Not production, financial or '
             'regulatory advice.</div>')
 

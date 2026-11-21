@@ -68,6 +68,7 @@ html,body,[class*="st-"],.stMarkdown,button,input,textarea,select{font-family:va
 [data-testid="stSidebar"] [data-testid="stButtonGroup"] button[kind$="Active"]{background:#F3E9F7;border-color:#F3E9F7}
 [data-testid="stSidebar"] [data-testid="stButtonGroup"] button[kind$="Active"] p{color:var(--plum900)!important}
 .mw-chip{display:inline-flex;align-items:center;gap:.4rem;font-size:.74rem;border-radius:12px;padding:.24rem .65rem;border:1px solid #5A3A70;max-width:100%;margin:.15rem 0;font-weight:600;overflow-wrap:anywhere}
+.mw-chip.role{flex-direction:column;align-items:flex-start;gap:.1rem}.mw-chip.role code{font-family:var(--mono);font-size:.66rem;background:transparent;color:#C9B5D6!important;padding:0}
 .mw-chip.sample{background:#FBEFD1;border-color:#E8C877;color:#7A5200!important}.mw-chip.sample *{color:#7A5200!important}
 .mw-chip.live{background:#DDF2EA;border-color:#8CCBB6;color:#196B57!important}.mw-chip.live *{color:#196B57!important}
 .mw-dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
