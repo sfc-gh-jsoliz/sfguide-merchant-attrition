@@ -49,7 +49,8 @@ This branch (`v2-rebuild`) rebuilds the pack to the Snow Packs v2 bar (see [`COC
 - **Removed:** root `index.html`, `styles.css`, `try/` and `assets/` (replaced under `docs/`); short redirect stubs stay at `index.html` and `try/index.html` so your current links keep working until Pages points at `/docs`.
 - **Added:** `app/` modules (`data.py`, `ai.py`, `brand.py`, `views/`), `requirements.txt` and `environment.yml` pinned to Streamlit 1.50.0, bundled fonts with their OFL licenses, `scripts/` (build, capture, contrast check), `package.json` with `npm run build:example`, and `.gitignore`.
 - **Notebook:** prerequisites, fact pack, DATA RULES and verifier now match the app.
-- **Verified live** on 2026-11-21 in a Snowflake demo account with key-pair auth: setup ran in 13-17 s and twice in a row; every screen ran in Live mode; Live and Sample data are identical row for row; notes took 7-13 s and agent answers 13-29 s; an outreach row was written; `CREATE STREAMLIT` from the stage succeeded; every notebook cell ran; cleanup left nothing behind (checked with SHOW).
+- **Self-review:** [`SELF-REVIEW.md`](SELF-REVIEW.md).
+- **Verified live** on 2026-11-21 in a Snowflake demo account with key-pair auth: setup ran in 13-17 s and twice in a row; every screen ran in Live mode; Live and Sample data are identical row for row; notes took 7-13 s and agent answers 13-29 s; an outreach row was written; `CREATE STREAMLIT` from the stage succeeded (the deployed app was not opened in Snowsight); every notebook cell ran; cleanup left nothing behind (checked with SHOW).
 
 ## What to do after merging
 
