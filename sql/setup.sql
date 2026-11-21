@@ -18,8 +18,8 @@
 --
 -- Creates: role MERCHANT_ATTRITION_ROLE, warehouse SNOWPACK_MERCHANT_ATTRITION_WH
 -- (XSMALL, 60 s auto-suspend), database SNOWPACK_MERCHANT_ATTRITION with
--- schema CORE: 4 tables, 5 views, a semantic view, a Cortex Agent, a notes
--- table and a stage for the Streamlit app. Remove it all with sql/cleanup.sql.
+-- schema CORE: 4 data tables, 5 views, a semantic view, a Cortex Agent, notes and
+-- outreach tables and a stage for the Streamlit app. Remove it all with sql/cleanup.sql.
 -- Cost: setup uses well under 0.1 warehouse credit (see README).
 -- ============================================================================
 
@@ -3452,6 +3452,11 @@ CREATE TABLE IF NOT EXISTS ATTRITION_REPORTS (
   model STRING, latency_ms INT,
   created_at TIMESTAMP_NTZ DEFAULT SYSDATE()
 ) COMMENT = 'Attrition notes written by AI_COMPLETE and checked by a second AI_COMPLETE pass';
+
+CREATE TABLE IF NOT EXISTS ATTRITION_OUTREACH (
+  outreach_id STRING DEFAULT UUID_STRING(), merchant_id STRING, risk_band STRING, action STRING,
+  owner STRING, note STRING, created_at TIMESTAMP_NTZ DEFAULT SYSDATE()
+) COMMENT = 'Outreach actions queued from the Save list screen';
 
 CREATE OR REPLACE AGENT ATTRITION_AGENT
   COMMENT = 'Merchant Attrition Early-Warning agent (Cortex Analyst over ATTRITION_SV)'

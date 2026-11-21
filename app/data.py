@@ -5,6 +5,7 @@ rules as sql/setup.sql; Live mode reads the views. Live never falls back to
 Sample: a failed query raises, and the page shows the error.
 """
 import os
+from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 
 import numpy as np
@@ -60,6 +61,14 @@ def sql_df(q, params=None):
     return df
 
 
+def _sf_round(num, den, places, mult=1):
+    """Snowflake ROUND(num / den * mult, places) on NUMBER columns: the division keeps 6 decimals
+    (half away from zero) before the multiply and the final ROUND."""
+    q6, q = Decimal("0.000001"), Decimal(1).scaleb(-places)
+    return [float(((Decimal(int(n)) / Decimal(int(d))).quantize(q6, rounding=ROUND_HALF_UP) * mult)
+                  .quantize(q, rounding=ROUND_HALF_UP)) for n, d in zip(num, den)]
+
+
 def _months_between(a, b):
     return (b.dt.year - a.dt.year) * 12 + (b.dt.month - a.dt.month)
 
@@ -70,8 +79,8 @@ def _health_from_csv():
     df = mm.merge(m[["merchant_id", "merchant_name", "category_code", "category_name", "onboarded_date",
                      "baseline_monthly_volume"]], on="merchant_id")
     ratio = df.monthly_volume_usd / df.baseline_monthly_volume
-    df["vol_ratio"] = ratio.round(4)
-    df["volume_decline_pct"] = ((df.baseline_monthly_volume - df.monthly_volume_usd) / df.baseline_monthly_volume * 100).round(2)
+    df["vol_ratio"] = _sf_round(df.monthly_volume_usd, df.baseline_monthly_volume, 4)
+    df["volume_decline_pct"] = _sf_round(df.baseline_monthly_volume - df.monthly_volume_usd, df.baseline_monthly_volume, 2, 100)
     df["tenure_months"] = _months_between(pd.to_datetime(df.onboarded_date), pd.to_datetime(df.month_end))
     df["risk_band"] = np.select(
         [df.churned_flag, (df.days_since_last_txn > 45) | (ratio < 0.60), (df.days_since_last_txn > 20) | (ratio < 0.85)],
@@ -112,7 +121,7 @@ def demand(mode):
         for c in ("market_sales_usd", "mom_growth_pct", "yoy_growth_pct"):
             df[c] = pd.to_numeric(df[c])
     else:
-        df = pd.read_csv(SAMPLE_DIR / "category_demand.csv")
+        df = pd.read_csv(SAMPLE_DIR / "category_demand.csv").sort_values(["category_code", "month_end"])
     df["month"] = pd.to_datetime(df["month_end"])
     return df.reset_index(drop=True)
 
