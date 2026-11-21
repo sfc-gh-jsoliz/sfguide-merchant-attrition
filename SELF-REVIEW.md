@@ -1,8 +1,8 @@
 # Self-review (v2 rebuild, 2026-11-21)
 
-Every item from the build standard's "Before you call it done" list and every CONTRIBUTING Must and Should, checked on the `v2-rebuild` branch. All results are from this build session.
+Every item in the Snow Packs v2 self-check and every CONTRIBUTING Must and Should, checked on the `v2-rebuild` branch.
 
-## Build standard: before you call it done
+## Self-check before you call it done
 
 | Item | Result | Evidence |
 |---|---|---|
