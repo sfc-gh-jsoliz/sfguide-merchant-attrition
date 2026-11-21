@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merchant Attrition Early-Warning · a Snowflake example for payments</title>
+<meta name="description" content="Spot merchants whose processed volume is decaying toward churn, and tell whether it is the merchant or the whole category slowing. A Snowflake example on synthetic data.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="hero">
+  <nav class="top wrap" aria-label="Site">
+    <a class="brand" href="./"><img src="assets/logo.svg" width="30" height="30" alt=""><span>Merchant Attrition Early-Warning</span></a>
+    <span class="links"><a href="#screens">Screens</a><a href="#how">How it works</a><a href="#run">Run it</a><a href="https://github.com/sfc-gh-jsoliz/sfguide-merchant-attrition">Repository</a></span>
+  </nav>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <p class="eyebrow">Payments · merchant retention</p>
+      <h1>Catch merchants drifting toward churn while there is still time to save them.</h1>
+      <p class="lede">A merchant rarely closes its account in one step. Volume slips, days between transactions grow, support tickets pile up, and by the time the book shows a churned merchant the relationship is gone. This example gives a processor's retention team a monthly save list, and contrasts each category's decline with its demand backdrop, so a book shrinking while its category grows stands out as a fixable retention problem rather than a market-wide slowdown.</p>
+      <p class="cta"><a class="btn primary" href="try/">Try it with sample data</a><a class="btn ghost" href="https://github.com/sfc-gh-jsoliz/sfguide-merchant-attrition">View the repository</a></p>
+      <ul class="facts">
+        <li><b>No account needed</b> for the hosted example</li>
+        <li><b>About 15 s</b> to run setup on an XSMALL warehouse</li>
+        <li><b>Well under 0.1</b> warehouse credit for setup, plus Cortex AI tokens per note</li>
+      </ul>
+    </div>
+    <figure class="pulse" aria-label="Illustration: a merchant's processed volume runs flat, dips, crosses the watch and at-risk lines and flattens into churn">
+      <svg viewBox="0 0 520 300" role="img" aria-hidden="true">
+        <defs><linearGradient id="fade" x1="0" x2="1"><stop offset="0" stop-color="#F3E9F7" stop-opacity=".15"/><stop offset=".55" stop-color="#F3E9F7"/><stop offset="1" stop-color="#F07A5E"/></linearGradient></defs>
+        <g stroke="#4B2761" stroke-width="1"><line x1="20" x2="500" y1="70" y2="70"/><line x1="20" x2="500" y1="140" y2="140" stroke-dasharray="3 5"/><line x1="20" x2="500" y1="200" y2="200" stroke-dasharray="3 5"/><line x1="20" x2="500" y1="262" y2="262"/></g>
+        <text x="500" y="134" text-anchor="end" fill="#D9A21B" font-size="12" font-family="DM Mono, monospace">watch 85%</text>
+        <text x="500" y="194" text-anchor="end" fill="#F07A5E" font-size="12" font-family="DM Mono, monospace">at risk 60%</text>
+        <path d="M20 168 C 120 150, 220 140, 320 118 S 470 92, 500 84" fill="none" stroke="#245F8C" stroke-width="2.4" stroke-dasharray="7 5" opacity=".9"/>
+        <path class="beat" d="M20 78 H120 L134 56 L150 98 L164 74 H230 C 270 78, 300 110, 330 150 S 380 230, 410 252 S 470 258, 500 258" fill="none" stroke="url(#fade)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="352" cy="190" r="7" fill="#F07A5E"/><circle cx="352" cy="190" r="15" fill="none" stroke="#F07A5E" stroke-opacity=".45" class="ring"/>
+        <text x="300" y="58" fill="#C9B5D6" font-size="12" font-family="Manrope, sans-serif">category demand keeps growing</text>
+        <text x="338" y="226" text-anchor="end" fill="#F3E9F7" font-size="12" font-weight="700" font-family="Manrope, sans-serif">early warning fires here</text>
+      </svg>
+      <figcaption><span><i class="sw book"></i>Merchant volume</span><span><i class="sw dem"></i>Category demand</span></figcaption>
+    </figure>
+  </div>
+  <div class="bands wrap" aria-label="Risk bands used everywhere in the app">
+    <span><i style="background:var(--h-c)"></i><b>Healthy</b> inside every threshold</span>
+    <span><i style="background:var(--w-c)"></i><b>Watch</b> under 85% of baseline or 20+ idle days</span>
+    <span><i style="background:var(--r-c)"></i><b>At risk</b> under 60% or 45+ idle days</span>
+    <span><i style="background:var(--c-c)"></i><b>Churned</b> stopped processing</span>
+  </div>
+</header>
+
+<main>
+<section class="wrap disclaimer" aria-label="Disclaimer">
+  <p><b>Illustrative example.</b> Synthetic merchant data and illustrative logic only. Not production software, and not financial, credit or regulatory advice. Not an official Snowflake product and not supported by Snowflake Support.</p>
+</section>
+
+<section id="screens" class="wrap">
+  <h2>What the retention team sees</h2>
+  <p class="sub">Every screen below is the running Streamlit app on its bundled synthetic data. The same app runs Live on Snowflake.</p>
+  <figure class="shot lead">
+    <img src="images/overview.png" width="1440" height="900" loading="lazy" alt="Overview screen: KPI tiles for 102 active merchants, 7 on the save list, 16 churned in the last 12 months and 90.8% net revenue retention; an early-warning note that Electronics and Appliances volume is down 26.4% while its category demand is up 12.4%; stacked bars of watch, at-risk and churned merchants by month; and a book-versus-market list with a diagnosis per category.">
+    <figcaption><b>Overview.</b> KPIs, a stacked risk-band trend and a "book vs market" diagnosis per category, read from the <code>ATTRITION_MERCHANT_HEALTH</code> view and the category demand backdrop in Snowflake.</figcaption>
+  </figure>
+  <div class="shots">
+    <figure class="shot">
+      <img src="images/save-list.png" width="1440" height="900" loading="lazy" alt="Save list screen: seven watch and at-risk merchants sorted by urgency with volume as a percentage of baseline, three-month change, idle days, tickets and a 24-month sparkline, above a detail panel for RESTAURANTS-002 at 33% of baseline with 41 idle days and 5 tickets.">
+      <figcaption><b>Save list.</b> This month's watch and at-risk merchants with the signals that flagged them. Queued outreach is written to the <code>ATTRITION_OUTREACH</code> table in Live mode.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="images/categories.png" width="1440" height="900" loading="lazy" alt="Categories screen: a table of six categories with diagnosis pills (retention problem, market slowdown, healthy), book and demand year-on-year change, gap, NRR and churn rate, and a drill-down for Electronics and Appliances comparing book and demand year-on-year change over 12 months and risk bands by tenure.">
+      <figcaption><b>Categories.</b> Is it the merchants or the market? Book volume year on year against category demand year on year, computed in Snowflake SQL over the merchant book and the demand backdrop.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="images/attrition-notes.png" width="1440" height="900" loading="lazy" alt="Attrition notes screen: staged steps (fact pack, AI_COMPLETE draft, AI_COMPLETE fact-check, save), a Verified badge labeled Sample AI response, and a note whose table lists active, watch, at-risk and churned merchants, churn rate, NRR, book YoY and category demand YoY for six categories.">
+      <figcaption><b>Attrition notes.</b> Cortex <code>AI_COMPLETE</code> writes a save-list note from a fact pack of allowed numbers; a second <code>AI_COMPLETE</code> pass checks every figure and badges it Verified or Needs review.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="images/ask-the-agent.png" width="1440" height="900" loading="lazy" alt="Ask the agent screen: four suggested questions, completed staged steps for the Cortex Agent, and an answer explaining that Electronics and Appliances has the most flagged merchants while its category demand grows, labeled Sample AI response.">
+      <figcaption><b>Ask the agent.</b> A Cortex Agent answers plain-English questions with Cortex Analyst over the <code>ATTRITION_SV</code> semantic view, and shows the SQL it wrote.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="how" class="wrap">
+  <h2>How Snowflake does each step</h2>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><h3>Score every merchant, every month</h3><p>A Snowflake SQL view, <code>ATTRITION_MERCHANT_HEALTH</code>, compares each merchant's processed volume with its baseline, counts idle days and tickets, and assigns healthy, watch, at risk or churned.</p></div>
+    <div class="step"><span class="n">2</span><h3>Contrast with category demand</h3><p><code>ATTRITION_BENCHMARK</code> rolls merchants up by MCC category, month, risk band and tenure and joins the category demand backdrop, so a shrinking book can be read against its market.</p></div>
+    <div class="step"><span class="n">3</span><h3>Give it business meaning</h3><p>The <code>ATTRITION_SV</code> semantic view defines churn rate, net revenue retention and demand growth once, for people and for AI.</p></div>
+    <div class="step"><span class="n">4</span><h3>Write and check the note</h3><p>Cortex <code>AI_COMPLETE</code> drafts a save-list note from a fact pack; a second <code>AI_COMPLETE</code> pass verifies every number. Results land in <code>ATTRITION_REPORTS</code>.</p></div>
+    <div class="step"><span class="n">5</span><h3>Answer follow-up questions</h3><p>A Cortex Agent with Cortex Analyst writes SQL over the semantic view; the app calls it through <code>DATA_AGENT_RUN</code>.</p></div>
+    <div class="step"><span class="n">6</span><h3>Run where the data lives</h3><p>The app is Streamlit; deploy it as Streamlit in Snowflake from the <code>APP_STAGE</code> stage, or run it locally with key-pair auth.</p></div>
+  </div>
+</section>
+
+<section id="run" class="wrap two">
+  <div class="card">
+    <h2>Run it</h2>
+    <ol>
+      <li><b>No account:</b> open the <a href="try/">hosted example</a>, or clone the repository and run <code>streamlit run app/streamlit_app.py</code> (Sample mode).</li>
+      <li><b>Live:</b> run <code>sql/setup.sql</code> in a Snowsight worksheet as a role that can create roles, warehouses and databases. It creates a least-privilege <code>MERCHANT_ATTRITION_ROLE</code> that owns everything.</li>
+      <li>Start the app with key-pair auth, or deploy it as Streamlit in Snowflake (steps in the README).</li>
+      <li>Optional: swap in real US Census retail sales as the demand backdrop with <code>sql/census_backdrop.sql</code> and the free Marketplace Financial Data Package.</li>
+      <li>Remove everything with <code>sql/cleanup.sql</code>.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h2>Prerequisites</h2>
+    <ul>
+      <li>Snowflake account with Cortex AI functions (<code>AI_COMPLETE</code>, <code>claude-sonnet-4-5</code>) and Cortex Agents in your region.</li>
+      <li>A role that can create a role, a database and an XSMALL warehouse, and grant <code>SNOWFLAKE.CORTEX_USER</code>.</li>
+      <li>Python 3.11+ with Streamlit 1.50 to run the app locally.</li>
+    </ul>
+    <h2>Learn more</h2>
+    <ul>
+      <li><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql">Cortex AI functions (AI_COMPLETE)</a></li>
+      <li><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents">Cortex Agents</a></li>
+      <li><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst">Cortex Analyst</a> and <a href="https://docs.snowflake.com/en/user-guide/views-semantic/overview">semantic views</a></li>
+      <li><a href="https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit">Streamlit in Snowflake</a></li>
+    </ul>
+  </div>
+</section>
+</main>
+<footer class="wrap foot">
+  <p>Merchant Attrition Early-Warning · Owner: Javier Soliz · Apache 2.0 · <a href="https://github.com/sfc-gh-jsoliz/sfguide-merchant-attrition">Repository</a></p>
+  <p>Synthetic data and illustrative logic only; outcomes shown are from this synthetic data set. Not an official Snowflake product, not supported by Snowflake Support.</p>
+</footer>
+</body>
+</html>
