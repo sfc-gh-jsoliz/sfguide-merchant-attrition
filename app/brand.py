@@ -40,7 +40,9 @@ CSS = "<style>" + _FONTS + """
  --sans:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
 html{overflow-x:clip}
 html,body,[class*="st-"],.stMarkdown,button,input,textarea,select{font-family:var(--sans)}
-[data-testid="stToolbar"],[data-testid="stDecoration"],#MainMenu,footer,[data-testid="stAppDeployButton"]{display:none!important}
+[data-testid="stIconMaterial"],.material-symbols-rounded{font-family:"Material Symbols Rounded"!important}
+[data-testid="stToolbarActions"],[data-testid="stMainMenu"],[data-testid="stDecoration"],#MainMenu,footer,[data-testid="stAppDeployButton"],[data-testid="stStatusWidget"]{display:none!important}
+[data-testid="stExpandSidebarButton"]{background:var(--plum900);border-radius:9px;color:#F3E9F7}[data-testid="stExpandSidebarButton"] *{color:#F3E9F7}
 [data-testid="stHeader"]{background:transparent;height:2.6rem}
 .stApp{background:var(--canvas)}
 .block-container,[data-testid="stMainBlockContainer"]{padding-top:1.4rem!important;max-width:1240px;padding-left:1.4rem;padding-right:1.4rem}
@@ -65,7 +67,7 @@ html,body,[class*="st-"],.stMarkdown,button,input,textarea,select{font-family:va
 [data-testid="stSidebar"] [data-testid="stButtonGroup"] button p{color:#E4D6EC!important}
 [data-testid="stSidebar"] [data-testid="stButtonGroup"] button[kind$="Active"]{background:#F3E9F7;border-color:#F3E9F7}
 [data-testid="stSidebar"] [data-testid="stButtonGroup"] button[kind$="Active"] p{color:var(--plum900)!important}
-.mw-chip{display:inline-flex;align-items:center;gap:.4rem;font-size:.74rem;border-radius:999px;padding:.24rem .65rem;border:1px solid #5A3A70;white-space:nowrap;max-width:100%;margin:.15rem 0;font-weight:600}
+.mw-chip{display:inline-flex;align-items:center;gap:.4rem;font-size:.74rem;border-radius:12px;padding:.24rem .65rem;border:1px solid #5A3A70;max-width:100%;margin:.15rem 0;font-weight:600;overflow-wrap:anywhere}
 .mw-chip.sample{background:#FBEFD1;border-color:#E8C877;color:#7A5200!important}.mw-chip.sample *{color:#7A5200!important}
 .mw-chip.live{background:#DDF2EA;border-color:#8CCBB6;color:#196B57!important}.mw-chip.live *{color:#196B57!important}
 .mw-dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
@@ -152,7 +154,7 @@ html,body,[class*="st-"],.stMarkdown,button,input,textarea,select{font-family:va
  .mw-kpi .v{font-size:1.3rem}.mw-kpi svg{display:none}
  .mw-h h1{font-size:1.35rem}
  .mw-cat{grid-template-columns:minmax(0,1fr) auto}.mw-cat .mw-vs{display:none}
- .block-container,[data-testid="stMainBlockContainer"]{padding-left:.8rem;padding-right:.8rem}
+ .block-container,[data-testid="stMainBlockContainer"]{padding-left:.8rem;padding-right:.8rem;padding-top:3.2rem!important}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>

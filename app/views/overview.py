@@ -5,7 +5,7 @@ import streamlit as st
 
 import brand
 import data
-from views.common import band_scale, cap, load, theme
+from views.common import cap, load, theme
 
 
 def render(mode):
@@ -54,18 +54,20 @@ def render(mode):
 
     left, right = st.columns([1.6, 1], gap="medium")
     with left.container(key="card_bands"):
-        st.markdown('<p class="mw-card-h">Merchants by risk band</p><p class="mw-card-s">Count per month-end, stacked. Hover for the band and month.</p>', unsafe_allow_html=True)
-        long = m.melt(id_vars="month", value_vars=data.BANDS, var_name="band", value_name="merchants")
+        st.markdown(f'<p class="mw-card-h">Merchants off healthy, by band</p><p class="mw-card-s">Watch, at-risk and churned merchants per month-end, stacked; '
+                    f'the other {int(cur.healthy)} of {int(cur.active + cur.churned)} are healthy in {last:%B %Y}. Hover for the band and month.</p>', unsafe_allow_html=True)
+        long = m.melt(id_vars="month", value_vars=data.BANDS[1:], var_name="band", value_name="merchants")
         long["band_label"] = long.band.map(brand.BAND_LABEL)
         long["order"] = long.band.map({b: i for i, b in enumerate(data.BANDS)})
-        chart = alt.Chart(long).mark_area(opacity=.9, interpolate="step-after").encode(
-            x=alt.X("month:T", title=None, axis=alt.Axis(format="%b %y", labelAngle=0, tickCount=8)),
+        chart = alt.Chart(long).mark_bar(opacity=.95, cornerRadiusTopLeft=2, cornerRadiusTopRight=2).encode(
+            x=alt.X("yearmonth(month):O", title=None, axis=alt.Axis(labelExpr="timeFormat(datum.value, '%b %y')", labelAngle=-40)),
             y=alt.Y("merchants:Q", title="Merchants", stack="zero"),
-            color=alt.Color("band_label:N", title=None, scale=band_scale(), sort=[brand.BAND_LABEL[b] for b in data.BANDS]),
+            color=alt.Color("band_label:N", title=None, sort=[brand.BAND_LABEL[b] for b in data.BANDS[1:]],
+                            scale=alt.Scale(domain=[brand.BAND_LABEL[b] for b in data.BANDS[1:]], range=[brand.BAND[b][2] for b in data.BANDS[1:]])),
             order=alt.Order("order:Q"),
             tooltip=[alt.Tooltip("month:T", title="Month-end", format="%B %Y"), alt.Tooltip("band_label:N", title="Band"),
                      alt.Tooltip("merchants:Q", title="Merchants")],
-        ).properties(height=290)
+        ).properties(height=320)
         st.altair_chart(chart, use_container_width=True, theme=None)
     with right.container(key="card_vs"):
         st.markdown('<p class="mw-card-h">Book vs market, year on year</p><p class="mw-card-s">Merchant book volume change against category demand change. Widest gap first.</p>', unsafe_allow_html=True)
