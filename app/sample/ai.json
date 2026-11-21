@@ -1,0 +1,490 @@
+{
+ "notes": {
+  "ALL": {
+   "scope": "ALL",
+   "subject": "All categories",
+   "markdown": "# Attrition Early Warning: Electronics & Appliances bleeds merchants despite strong category demand\n\n| Category | Active | Watch | At-Risk | Churned | Churn Rate % | NRR % | Book YoY % | Category Demand YoY % |\n|----------|--------|-------|---------|---------|--------------|-------|------------|-----------------------|\n| Clothing & Accessories | 17 | 0 | 0 | 3 | 15 | 74.2 | -15.9 | -10.6 |\n| Electronics & Appliances | 15 | 2 | 1 | 5 | 25 | 78.7 | -26.4 | 12.4 |\n| Food & Beverage Stores | 19 | 0 | 0 | 1 | 5 | 108.8 | 5.4 | 4.4 |\n| Furniture & Home Furnishings | 16 | 1 | 0 | 4 | 20 | 85.3 | -8.4 | -2.2 |\n| Health & Personal Care | 18 | 0 | 1 | 2 | 10 | 105.4 | 2.6 | 1.3 |\n| Restaurants & Food Service | 17 | 1 | 1 | 3 | 15 | 86.7 | -15.0 | -1.2 |\n\n**Priority save-list:**\n\n- **Electronics & Appliances**: Retention crisis—lost 5 merchants (25% churn rate) and book volume dropped 26.4% while category demand grew 12.4%. Focus on the 1 at-risk and 2 watch merchants immediately to prevent further bleeding in a growing market.\n\n- **Furniture & Home Furnishings**: Lost 4 merchants (20% churn rate) with book down 8.4% versus category demand down only 2.2%. The 1 watch merchant needs intervention to avoid amplifying losses beyond the market slowdown.\n\n- **Restaurants & Food Service**: Book declined 15.0% against category demand down just 1.2%, indicating merchant-specific issues beyond market weakness. Address the 1 at-risk and 1 watch merchant to stabilize this underperforming vertical.\n\n## Data Coverage\n2026-06-30",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "active_merchants": 17,
+     "at_risk_merchants": 0,
+     "book_volume_usd": 3757997,
+     "book_volume_year_earlier_usd": 4470655,
+     "book_volume_yoy_pct": -15.9,
+     "category": "Clothing & Accessories",
+     "category_demand_yoy_pct": -10.6,
+     "churn_rate_pct": 15,
+     "churned_merchants": 3,
+     "churned_merchants_year_earlier": 1,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 74.2,
+     "total_merchants": 20,
+     "watch_merchants": 0
+    },
+    {
+     "active_merchants": 15,
+     "at_risk_merchants": 1,
+     "book_volume_usd": 3585260,
+     "book_volume_year_earlier_usd": 4871617,
+     "book_volume_yoy_pct": -26.4,
+     "category": "Electronics & Appliances",
+     "category_demand_yoy_pct": 12.4,
+     "churn_rate_pct": 25,
+     "churned_merchants": 5,
+     "churned_merchants_year_earlier": 0,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 78.7,
+     "total_merchants": 20,
+     "watch_merchants": 2
+    },
+    {
+     "active_merchants": 19,
+     "at_risk_merchants": 0,
+     "book_volume_usd": 6529862,
+     "book_volume_year_earlier_usd": 6196362,
+     "book_volume_yoy_pct": 5.4,
+     "category": "Food & Beverage Stores",
+     "category_demand_yoy_pct": 4.4,
+     "churn_rate_pct": 5,
+     "churned_merchants": 1,
+     "churned_merchants_year_earlier": 0,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 108.8,
+     "total_merchants": 20,
+     "watch_merchants": 0
+    },
+    {
+     "active_merchants": 16,
+     "at_risk_merchants": 0,
+     "book_volume_usd": 2668247,
+     "book_volume_year_earlier_usd": 2913438,
+     "book_volume_yoy_pct": -8.4,
+     "category": "Furniture & Home Furnishings",
+     "category_demand_yoy_pct": -2.2,
+     "churn_rate_pct": 20,
+     "churned_merchants": 4,
+     "churned_merchants_year_earlier": 1,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 85.3,
+     "total_merchants": 20,
+     "watch_merchants": 1
+    },
+    {
+     "active_merchants": 18,
+     "at_risk_merchants": 1,
+     "book_volume_usd": 5473401,
+     "book_volume_year_earlier_usd": 5333138,
+     "book_volume_yoy_pct": 2.6,
+     "category": "Health & Personal Care",
+     "category_demand_yoy_pct": 1.3,
+     "churn_rate_pct": 10,
+     "churned_merchants": 2,
+     "churned_merchants_year_earlier": 0,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 105.4,
+     "total_merchants": 20,
+     "watch_merchants": 0
+    },
+    {
+     "active_merchants": 17,
+     "at_risk_merchants": 1,
+     "book_volume_usd": 5827260,
+     "book_volume_year_earlier_usd": 6857140,
+     "book_volume_yoy_pct": -15,
+     "category": "Restaurants & Food Service",
+     "category_demand_yoy_pct": -1.2,
+     "churn_rate_pct": 15,
+     "churned_merchants": 3,
+     "churned_merchants_year_earlier": 0,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 86.7,
+     "total_merchants": 20,
+     "watch_merchants": 1
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 11015
+  },
+  "RESTAURANTS": {
+   "scope": "RESTAURANTS",
+   "subject": "Restaurants & Food Service",
+   "markdown": "# Restaurants & Food Service book shrinking 13× faster than category demand\n\n| Category | Active | Watch | At-Risk | Churned | Churn Rate % | NRR % | Book YoY % | Category Demand YoY % |\n|----------|--------|-------|---------|---------|--------------|-------|------------|-----------------------|\n| Restaurants & Food Service | 17 | 1 | 1 | 3 | 15 | 86.7 | -15 | -1.2 |\n\n**Save-list priorities:**\n\n- **1 at-risk merchant** requires immediate intervention—Restaurants & Food Service lost 3 merchants this period (versus 0 in the year-earlier period) and the 15% churn rate is driving book volume down 15% while category demand declined only 1.2%\n- **1 watch merchant** should be escalated to prevent further degradation of the 86.7% net revenue retention\n- Category exhibits a clear retention problem, not merely market softness: the book is eroding more than 10× faster than underlying demand signals\n\n## Data Coverage\n2026-06-30",
+   "status": "needs_review",
+   "edits": [
+    "Headline claims book shrinking '13× faster' but facts show -15% book vs -1.2% category demand, which is 12.5× faster, not 13×",
+    "Bullet claims 'more than 10× faster' but earlier text and headline claim 13× (inconsistent and both incorrect given 12.5× ratio)"
+   ],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "active_merchants": 17,
+     "at_risk_merchants": 1,
+     "book_volume_usd": 5827260,
+     "book_volume_year_earlier_usd": 6857140,
+     "book_volume_yoy_pct": -15,
+     "category": "Restaurants & Food Service",
+     "category_demand_yoy_pct": -1.2,
+     "churn_rate_pct": 15,
+     "churned_merchants": 3,
+     "churned_merchants_year_earlier": 0,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 86.7,
+     "total_merchants": 20,
+     "watch_merchants": 1
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 8940
+  },
+  "APPAREL": {
+   "scope": "APPAREL",
+   "subject": "Clothing & Accessories",
+   "markdown": "# Attrition early-warning: Clothing & Accessories underperforming category demand by 5 percentage points\n\n| Category | Active | Watch | At-Risk | Churned | Churn Rate % | NRR % | Book YoY % | Category Demand YoY % |\n|----------|--------|-------|---------|---------|--------------|-------|------------|-----------------------|\n| Clothing & Accessories | 17 | 0 | 0 | 3 | 15 | 74.2 | -15.9 | -10.6 |\n\n**Priority save-list:**\n\n- **Clothing & Accessories is a retention problem**: book volume contracted 15.9% while category demand declined only 10.6%, indicating share loss beyond the market slowdown; churned merchants tripled year-over-year (3 vs 1)\n\n- **Net revenue retention of 74.2% signals severe revenue leakage**: existing merchants are processing significantly less, compounding the impact of the 15% churn rate\n\n- **All 17 active merchants require immediate outreach**: with 0 merchants flagged as watch or at-risk despite deteriorating metrics, the early-warning system may be under-sensitive to this cohort's flight risk\n\n## Data Coverage\n2026-06-30",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "active_merchants": 17,
+     "at_risk_merchants": 0,
+     "book_volume_usd": 3757997,
+     "book_volume_year_earlier_usd": 4470655,
+     "book_volume_yoy_pct": -15.9,
+     "category": "Clothing & Accessories",
+     "category_demand_yoy_pct": -10.6,
+     "churn_rate_pct": 15,
+     "churned_merchants": 3,
+     "churned_merchants_year_earlier": 1,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 74.2,
+     "total_merchants": 20,
+     "watch_merchants": 0
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7474
+  },
+  "ELECTRONICS": {
+   "scope": "ELECTRONICS",
+   "subject": "Electronics & Appliances",
+   "markdown": "# Electronics & Appliances book collapsing 26% against growing market demand\n\n| Category | Active | Watch | At-Risk | Churned | Churn Rate % | NRR % | Book YoY % | Category Demand YoY % |\n|----------|--------|-------|---------|---------|--------------|-------|--------------|----------------------|\n| Electronics & Appliances | 15 | 2 | 1 | 5 | 25 | 78.7 | -26.4 | 12.4 |\n\n**Priority save-list:**\n\n- **1 at-risk merchant** requires immediate intervention: the category is a clear retention problem with the book shrinking 26.4% while category demand grew 12.4%, representing a 38.8 percentage point underperformance\n- **2 watch merchants** need engagement before degrading further: 25% churn rate and 78.7% net revenue retention show severe attrition momentum with 5 churned merchants versus 0 a year earlier\n- Focus retention resources entirely on this category given the contradiction between strong market backdrop (12.4% demand growth) and portfolio hemorrhaging\n\n## Data Coverage\n2026-06-30",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "active_merchants": 15,
+     "at_risk_merchants": 1,
+     "book_volume_usd": 3585260,
+     "book_volume_year_earlier_usd": 4871617,
+     "book_volume_yoy_pct": -26.4,
+     "category": "Electronics & Appliances",
+     "category_demand_yoy_pct": 12.4,
+     "churn_rate_pct": 25,
+     "churned_merchants": 5,
+     "churned_merchants_year_earlier": 0,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 78.7,
+     "total_merchants": 20,
+     "watch_merchants": 2
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7441
+  },
+  "GROCERY": {
+   "scope": "GROCERY",
+   "subject": "Food & Beverage Stores",
+   "markdown": "# Food & Beverage Stores showing early churn signal despite book growth\n\n| Category | Active | Watch | At-Risk | Churned | Churn Rate % | NRR % | Book YoY % | Category Demand YoY % |\n|----------|--------|-------|---------|---------|--------------|-------|--------------|----------------------|\n| Food & Beverage Stores | 19 | 0 | 0 | 1 | 5 | 108.8 | 5.4 | 4.4 |\n\n**Save-list priorities:**\n\n* **Food & Beverage Stores** lost 1 merchant in June 2026 (0 churned same month prior year) - first churn event to investigate despite healthy 108.8 net revenue retention and book volume growing at 5.4, outpacing the 4.4 category demand growth\n* No merchants currently flagged as watch or at-risk, but the 5 churn rate warrants immediate outreach to remaining 19 active merchants to identify any systemic issues before pipeline develops\n* Book performance is solid relative to category backdrop, suggesting churn may be idiosyncratic rather than competitive pressure - priority is understanding the specific departure trigger\n\n## Data Coverage\n2026-06-30",
+   "status": "needs_review",
+   "edits": [
+    "Churn Rate % column shows '5' but should display '5.0' or include '%' symbol for clarity",
+    "Phrase 'churn rate warrants immediate outreach' is a recommendation hedge not directly supported by numerical facts",
+    "Claim 'churn may be idiosyncratic rather than competitive pressure' is speculative interpretation not supported by facts"
+   ],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "active_merchants": 19,
+     "at_risk_merchants": 0,
+     "book_volume_usd": 6529862,
+     "book_volume_year_earlier_usd": 6196362,
+     "book_volume_yoy_pct": 5.4,
+     "category": "Food & Beverage Stores",
+     "category_demand_yoy_pct": 4.4,
+     "churn_rate_pct": 5,
+     "churned_merchants": 1,
+     "churned_merchants_year_earlier": 0,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 108.8,
+     "total_merchants": 20,
+     "watch_merchants": 0
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 9934
+  },
+  "FURNITURE": {
+   "scope": "FURNITURE",
+   "subject": "Furniture & Home Furnishings",
+   "markdown": "# Furniture & Home Furnishings showing elevated churn amid category weakness\n\n| Category | Active | Watch | At-Risk | Churned | Churn Rate % | NRR % | Book YoY % | Category Demand YoY % |\n|----------|--------|-------|---------|---------|--------------|-------|------------|-----------------------|\n| Furniture & Home Furnishings | 16 | 1 | 0 | 4 | 20 | 85.3 | -8.4 | -2.2 |\n\n- **Furniture & Home Furnishings** lost 4 merchants (up from 1 a year earlier) with 20% churn rate and book volume down 8.4% versus category demand decline of only 2.2%, indicating a retention problem beyond market slowdown\n- The 1 merchant on watch requires immediate outreach given the category already lost 20% of its base and net revenue retention sits at 85.3%\n- With book volume contracting nearly 4x faster than category demand, investigate pricing, service issues, or competitor wins driving the outsized merchant losses\n\n## Data Coverage\n2026-06-30",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "active_merchants": 16,
+     "at_risk_merchants": 0,
+     "book_volume_usd": 2668247,
+     "book_volume_year_earlier_usd": 2913438,
+     "book_volume_yoy_pct": -8.4,
+     "category": "Furniture & Home Furnishings",
+     "category_demand_yoy_pct": -2.2,
+     "churn_rate_pct": 20,
+     "churned_merchants": 4,
+     "churned_merchants_year_earlier": 1,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 85.3,
+     "total_merchants": 20,
+     "watch_merchants": 1
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7083
+  },
+  "HEALTH": {
+   "scope": "HEALTH",
+   "subject": "Health & Personal Care",
+   "markdown": "# Health & Personal Care shows elevated churn despite book growth\n\n| category | active | watch | at-risk | churned | churn rate % | NRR % | book YoY % | category demand YoY % |\n|----------|--------|-------|---------|---------|--------------|-------|------------|-----------------------|\n| Health & Personal Care | 18 | 0 | 1 | 2 | 10 | 105.4 | 2.6 | 1.3 |\n\n* **Health & Personal Care**: 2 merchants churned in June 2026 versus 0 in the year-earlier period, lifting churn rate to 10 percent; the book grew 2.6 percent year-over-year, outpacing category demand growth of 1.3 percent, but the at-risk merchant and recent churn acceleration warrant immediate outreach.\n* The 1 at-risk merchant represents the immediate save opportunity; retention of this account is critical to prevent further deterioration from the current 10 percent churn rate.\n* Net revenue retention of 105.4 percent indicates expansion among remaining merchants, but this cannot offset the loss momentum if the at-risk account churns.\n\n## Data Coverage\n2026-06-30",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "active_merchants": 18,
+     "at_risk_merchants": 1,
+     "book_volume_usd": 5473401,
+     "book_volume_year_earlier_usd": 5333138,
+     "book_volume_yoy_pct": 2.6,
+     "category": "Health & Personal Care",
+     "category_demand_yoy_pct": 1.3,
+     "churn_rate_pct": 10,
+     "churned_merchants": 2,
+     "churned_merchants_year_earlier": 0,
+     "month": "2026-06-30",
+     "net_revenue_retention_pct": 105.4,
+     "total_merchants": 20,
+     "watch_merchants": 0
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7560
+  }
+ },
+ "ask": {
+  "Which categories have the most at-risk and watch merchants in June 2026, and is their category demand growing or shrinking?": {
+   "text": "Electronics & Appliances has the most flagged merchants in June 2026 (month ending 2026-06-30), and its category demand is growing strongly. Overall the numbers are small: only 7 of 120 merchants are on the at-risk or watch list.\n\n- **Electronics & Appliances** has 3 flagged merchants (1 at-risk, 2 watch). Category demand is up 12.4% year over year, the strongest of any category. Merchant volume is down about 40% against baseline even so. Because the market is growing, this looks like merchants leaving us, not the category shrinking.\n- **Restaurants & Food Service** has 2 (1 at-risk, 1 watch). Demand is slightly down at -1.2% year over year. A 46% average volume decline is far bigger than that dip, so weak demand explains only a small part of it.\n- **Furniture & Home Furnishings** has 1 (watch). Demand is down 2.2% year over year. Its 48% volume decline is the steepest of any category and well beyond the softer market.\n- **Health & Personal Care** has 1 (at-risk). Demand is up 1.3% year over year, with a 33% volume decline.\n- **Clothing & Accessories** and **Food & Beverage Stores** have no flagged merchants. Clothing has the weakest demand at -10.6% year over year, so its book is holding up despite a shrinking market.\n\nIn every flagged category, merchant volume is falling much faster than category demand. Electronics & Appliances is the clearest case: demand is growing while merchants lose volume.",
+   "sql": "WITH __ab AS (\n  SELECT\n    category_name,\n    month_end,\n    at_risk_count,\n    avg_volume_decline_pct,\n    category_yoy_growth_pct,\n    merchant_count,\n    watch_count\n  FROM SNOWPACK_MERCHANT_ATTRITION.CORE.ATTRITION_BENCHMARK\n)\nSELECT\n  category_name,\n  MAX(month_end) AS month_end,\n  SUM(at_risk_count) AS at_risk_merchants,\n  SUM(watch_count) AS watch_merchants,\n  SUM(at_risk_count) + SUM(watch_count) AS at_risk_plus_watch,\n  SUM(merchant_count) AS total_merchants,\n  AVG(avg_volume_decline_pct) AS avg_volume_decline,\n  AVG(category_yoy_growth_pct) AS category_demand_yoy\nFROM __ab\nWHERE\n  month_end >= '2026-06-01' AND month_end < '2026-07-01'\nGROUP BY\n  category_name\nORDER BY\n  at_risk_plus_watch DESC NULLS LAST /* Generated by Cortex */;",
+   "table": {
+    "columns": [
+     "CATEGORY_NAME",
+     "MONTH_END",
+     "AT_RISK_MERCHANTS",
+     "WATCH_MERCHANTS",
+     "AT_RISK_PLUS_WATCH",
+     "TOTAL_MERCHANTS",
+     "AVG_VOLUME_DECLINE",
+     "CATEGORY_DEMAND_YOY"
+    ],
+    "rows": [
+     [
+      "Electronics & Appliances",
+      "2026-06-30",
+      "1",
+      "2",
+      "3",
+      "20",
+      "40.37500000",
+      "12.41000000"
+     ],
+     [
+      "Restaurants & Food Service",
+      "2026-06-30",
+      "1",
+      "1",
+      "2",
+      "20",
+      "45.88833333",
+      "-1.16000000"
+     ],
+     [
+      "Furniture & Home Furnishings",
+      "2026-06-30",
+      "0",
+      "1",
+      "1",
+      "20",
+      "48.03600000",
+      "-2.19000000"
+     ],
+     [
+      "Health & Personal Care",
+      "2026-06-30",
+      "1",
+      "0",
+      "1",
+      "20",
+      "33.33000000",
+      "1.33000000"
+     ],
+     [
+      "Clothing & Accessories",
+      "2026-06-30",
+      "0",
+      "0",
+      "0",
+      "20",
+      "38.80000000",
+      "-10.63000000"
+     ],
+     [
+      "Food & Beverage Stores",
+      "2026-06-30",
+      "0",
+      "0",
+      "0",
+      "20",
+      "25.23000000",
+      "4.40000000"
+     ]
+    ]
+   },
+   "question": "Which categories have the most at-risk and watch merchants in June 2026, and is their category demand growing or shrinking?",
+   "latency_ms": 28350
+  },
+  "What was net revenue retention by category in June 2026?": {
+   "text": "In June 2026 (month ending June 30), two of six categories kept more than 100% of their baseline volume. The other four kept less, and in three of those the merchant losses look bigger than any drop in category demand.\n\n\n\n\n\n**What stands out:**\n- **Electronics & Appliances (78.7% NRR) is the biggest warning.** Category demand grew +12.4% YoY, but our merchants kept less than 79% of their baseline volume. Demand doesn't explain this decline, so the cause is likely specific to our merchants.\n- **Clothing & Accessories has the lowest NRR at 74.2%.** Category demand fell 10.6% YoY, which explains part of the drop, but retention fell further than demand did.\n- **Furniture & Home Furnishings (85.3%) and Restaurants & Food Service (86.7%)** each lost 13–15% of baseline volume, while their categories only dipped slightly (-2.2% and -1.2% YoY). Most of that gap comes from attrition on our side.\n- **Food & Beverage Stores (108.8%) and Health & Personal Care (105.4%)** were the only categories above 100%. Both grew faster than their categories did (+4.4% and +1.3% YoY). They are also the two largest by June volume, at $6.5M and $5.5M.",
+   "sql": "WITH __ab AS (\n  SELECT\n    category_name,\n    month_end,\n    baseline_volume_usd,\n    category_yoy_growth_pct,\n    monthly_volume_usd\n  FROM SNOWPACK_MERCHANT_ATTRITION.CORE.ATTRITION_BENCHMARK\n)\nSELECT\n  category_name,\n  MIN(month_end) AS month_end,\n  SUM(monthly_volume_usd) * 100.0 / NULLIF(NULLIF(SUM(baseline_volume_usd), 0), 0) AS net_revenue_retention,\n  AVG(category_yoy_growth_pct) AS category_demand_yoy,\n  SUM(monthly_volume_usd) AS total_volume_usd\nFROM __ab\nWHERE\n  month_end >= '2026-06-01' AND month_end < '2026-07-01'\nGROUP BY\n  category_name\nORDER BY\n  net_revenue_retention ASC /* Generated by Cortex */;",
+   "table": {
+    "columns": [
+     "CATEGORY_NAME",
+     "MONTH_END",
+     "NET_REVENUE_RETENTION",
+     "CATEGORY_DEMAND_YOY",
+     "TOTAL_VOLUME_USD"
+    ],
+    "rows": [
+     [
+      "Clothing & Accessories",
+      "2026-06-30",
+      "74.161328",
+      "-10.63000000",
+      "3757997"
+     ],
+     [
+      "Electronics & Appliances",
+      "2026-06-30",
+      "78.685795",
+      "12.41000000",
+      "3585260"
+     ],
+     [
+      "Furniture & Home Furnishings",
+      "2026-06-30",
+      "85.347444",
+      "-2.19000000",
+      "2668247"
+     ],
+     [
+      "Restaurants & Food Service",
+      "2026-06-30",
+      "86.675362",
+      "-1.16000000",
+      "5827260"
+     ],
+     [
+      "Health & Personal Care",
+      "2026-06-30",
+      "105.388860",
+      "1.33000000",
+      "5473401"
+     ],
+     [
+      "Food & Beverage Stores",
+      "2026-06-30",
+      "108.827079",
+      "4.40000000",
+      "6529862"
+     ]
+    ]
+   },
+   "question": "What was net revenue retention by category in June 2026?",
+   "latency_ms": 28559
+  },
+  "How did the number of churned merchants in Electronics & Appliances change between June 2025 and June 2026?": {
+   "text": "Churned merchants in Electronics & Appliances went from **0 in June 2025 to 5 in June 2026**. That's an increase of 5 merchants.\n\n- **Churn rate:** went from 0% to 25%. The category had 20 merchants in both months, so 5 of 20 have churned.\n- **Category demand:** grew faster over the same period, with year-over-year growth rising from 3.04% to 12.41%.\n\nBecause demand in the category went up while churn rose, the merchant losses are probably due to these merchants rather than a weaker market. They're worth investigating as a retention problem.",
+   "sql": "WITH __ab AS (\n  SELECT\n    category_name,\n    month_end,\n    category_yoy_growth_pct,\n    churned_count,\n    merchant_count\n  FROM SNOWPACK_MERCHANT_ATTRITION.CORE.ATTRITION_BENCHMARK\n)\nSELECT\n  month_end,\n  SUM(churned_count) AS churned_merchants,\n  SUM(merchant_count) AS total_merchants,\n  SUM(churned_count) * 100.0 / NULLIF(NULLIF(SUM(merchant_count), 0), 0) AS churn_rate_pct,\n  AVG(category_yoy_growth_pct) AS category_demand_yoy\nFROM __ab\nWHERE\n  category_name ILIKE '%Electronics%Appliance%'\n  AND DATE_TRUNC('MONTH', month_end) IN ('2025-06-01', '2026-06-01')\nGROUP BY\n  month_end\nORDER BY\n  month_end /* Generated by Cortex */;",
+   "table": {
+    "columns": [
+     "MONTH_END",
+     "CHURNED_MERCHANTS",
+     "TOTAL_MERCHANTS",
+     "CHURN_RATE_PCT",
+     "CATEGORY_DEMAND_YOY"
+    ],
+    "rows": [
+     [
+      "2025-06-30",
+      "0",
+      "20",
+      "0.000000",
+      "3.04000000"
+     ],
+     [
+      "2026-06-30",
+      "5",
+      "20",
+      "25.000000",
+      "12.41000000"
+     ]
+    ]
+   },
+   "question": "How did the number of churned merchants in Electronics & Appliances change between June 2025 and June 2026?",
+   "latency_ms": 12944
+  },
+  "Which tenure band has the highest churn rate in June 2026?": {
+   "text": "In June 2026 (month end 30 June), the **Established (1–3yr)** tenure band had the highest churn rate, at **16.1%**. That's 5 of 31 merchants churned. Mature (3yr+) merchants churned at 14.6% (13 of 89).\n\n\n\n\n\n- **No New (<1yr) data:** June 2026 has no rows for this band, so it isn't part of the comparison.\n- **Small numbers:** there are only 31 Established merchants, so one more or one fewer churn would move that band's rate by about 3 points. The 1.5-point gap between the bands could easily be noise.",
+   "sql": "WITH __ab AS (\n  SELECT\n    month_end,\n    tenure_band,\n    churned_count,\n    merchant_count\n  FROM SNOWPACK_MERCHANT_ATTRITION.CORE.ATTRITION_BENCHMARK\n)\nSELECT\n  tenure_band,\n  MIN(month_end) AS month_end,\n  SUM(churned_count) AS churned_merchants,\n  SUM(merchant_count) AS total_merchants,\n  SUM(churned_count) * 100.0 / NULLIF(NULLIF(SUM(merchant_count), 0), 0) AS churn_rate_pct\nFROM __ab\nWHERE\n  month_end >= '2026-06-01' AND month_end < '2026-07-01'\nGROUP BY\n  tenure_band\nORDER BY\n  churn_rate_pct DESC NULLS LAST /* Generated by Cortex */;",
+   "table": {
+    "columns": [
+     "TENURE_BAND",
+     "MONTH_END",
+     "CHURNED_MERCHANTS",
+     "TOTAL_MERCHANTS",
+     "CHURN_RATE_PCT"
+    ],
+    "rows": [
+     [
+      "Established (1-3yr)",
+      "2026-06-30",
+      "5",
+      "31",
+      "16.129032"
+     ],
+     [
+      "Mature (3yr+)",
+      "2026-06-30",
+      "13",
+      "89",
+      "14.606742"
+     ]
+    ]
+   },
+   "question": "Which tenure band has the highest churn rate in June 2026?",
+   "latency_ms": 15906
+  }
+ }
+}

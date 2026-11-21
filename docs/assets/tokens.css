@@ -1,0 +1,12 @@
+/* Design tokens from docs/DESIGN.md, shared by the guide and the hosted example. */
+@font-face{font-family:"Manrope";src:url("../fonts/manrope-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Manrope";src:url("../fonts/manrope-latin-500-normal.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Manrope";src:url("../fonts/manrope-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Manrope";src:url("../fonts/manrope-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Manrope";src:url("../fonts/manrope-latin-800-normal.woff2") format("woff2");font-weight:800;font-display:swap}
+@font-face{font-family:"DM Mono";src:url("../fonts/dm-mono-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"DM Mono";src:url("../fonts/dm-mono-latin-500-normal.woff2") format("woff2");font-weight:500;font-display:swap}
+:root{--plum950:#1E0F27;--plum900:#2A1636;--plum700:#4B2761;--plum500:#6D3B8C;--canvas:#F6F3F8;--surface:#fff;--surface2:#EEE8F2;--line:#DDD3E4;
+ --ink:#1D1424;--ink2:#463A51;--muted:#675B72;--demand:#245F8C;--coral:#F07A5E;
+ --h-t:#196B57;--h-s:#DDF2EA;--h-c:#3AA588;--w-t:#7A5200;--w-s:#FBEFD1;--w-c:#D9A21B;--r-t:#A63A20;--r-s:#FBE2DA;--r-c:#F07A5E;--c-t:#544D5E;--c-s:#ECE9EF;--c-c:#8D8697;
+ --sans:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace}

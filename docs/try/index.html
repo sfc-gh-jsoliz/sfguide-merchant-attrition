@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Try Merchant Attrition Early-Warning (sample data)</title>
+<meta name="description" content="No-account example of the Merchant Attrition Early-Warning Snowflake app, on synthetic data.">
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="shell">
+<aside class="rail" id="rail" aria-label="Navigation">
+  <a class="brand" href="../" aria-label="Back to the guide">
+    <img src="../assets/logo.svg" width="30" height="30" alt="">
+    <span><b>Merchant Attrition Early-Warning</b><small>Merchant retention · payments processor</small></span>
+  </a>
+  <div class="rail-h">Data mode</div>
+  <div class="seg" role="group" aria-label="Data mode">
+    <button type="button" class="on" data-mode="Sample" aria-pressed="true">Sample</button>
+    <button type="button" data-mode="Live" aria-pressed="false">Live</button>
+  </div>
+  <div class="rail-h">Views</div>
+  <nav id="nav"></nav>
+  <div class="rail-h">Environment</div>
+  <span class="chip sample"><i></i>Sample data</span>
+  <span class="chip">Retention analyst · MERCHANT_ATTRITION_ROLE</span>
+  <p class="rail-foot">Synthetic merchant book and illustrative logic only. Not production, financial or regulatory advice.</p>
+</aside>
+<div class="main-col">
+  <header class="mtop"><button type="button" id="menu" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><img src="../assets/logo.svg" width="26" height="26" alt=""><b>Merchant Attrition Early-Warning</b></header>
+  <main id="main" class="wrap" tabindex="-1"></main>
+  <footer class="foot wrap">Synthetic data and illustrative logic only; not production, financial or regulatory advice. This hosted example is always Sample mode. <a href="https://github.com/sfc-gh-jsoliz/sfguide-merchant-attrition#live-mode">Run it Live on Snowflake</a>.</footer>
+</div>
+</div>
+<div id="scrim" class="scrim" hidden></div>
+<aside id="drawer" class="drawer" aria-hidden="true" aria-label="Merchant detail"><div class="drawer-in" id="drawer-in"></div></aside>
+<div id="tip" class="tip" role="tooltip" hidden></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
