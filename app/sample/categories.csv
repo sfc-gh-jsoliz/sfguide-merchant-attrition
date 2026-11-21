@@ -1,0 +1,7 @@
+category_code,category_name,mcc,census_variable
+RESTAURANTS,Restaurants & Food Service,5812,ADV_722SM_SA
+APPAREL,Clothing & Accessories,5651,ADV_448SM_SA
+ELECTRONICS,Electronics & Appliances,5732,ADV_443SM_SA
+GROCERY,Food & Beverage Stores,5411,ADV_445SM_SA
+FURNITURE,Furniture & Home Furnishings,5712,ADV_442SM_SA
+HEALTH,Health & Personal Care,5912,ADV_446SM_SA
