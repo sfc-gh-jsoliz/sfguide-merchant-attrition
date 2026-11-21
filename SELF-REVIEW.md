@@ -57,7 +57,7 @@ Every item in the Snow Packs v2 self-check and every CONTRIBUTING Must and Shoul
 | Setup runs top to bottom with no find-and-replace | pass | |
 | "Example" not "demo" on customer-facing pages | pass | |
 
-## v2 bar (00c)
+## v2 bar (CONTRIBUTING.md)
 
 | Item | Result | Notes |
 |---|---|---|
